@@ -23,15 +23,6 @@ function insertNewUSer(data){
     })
 }
 
-function getUsers(){
-  pool.query('SELECT * FROM users order by "userId"', (error, results) => {
-    if (error) {
-      throw error
-    }
-    return response.status(200).json(results.rows);
-  })
-}
-
 app.get('/', function (req, res) {
   res.send("This is a server test. Hello");
 });
@@ -86,9 +77,16 @@ app.post('/user', jsonParser, function (req, res, next) {
 
 app.get('/user', function (req,res){
 
-  users = getUsers()
+  const users = (request, response) => {
+    pool.query('SELECT * FROM users ORDER BY "userId', (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).json(results.rows)
+    })
+  }
 
-  console.log(users)
+  res.send(users)
 
 });
 
