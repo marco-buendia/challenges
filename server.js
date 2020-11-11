@@ -23,24 +23,6 @@ function insertNewUSer(data){
     })
 }
 
-function connect () {
-  const config = {
-    user: process.env.SQL_USER,
-    password: process.env.SQL_PASSWORD,
-    database: process.env.SQL_DATABASE
-  };
-  config.host = process.env.INSTANCE_CONNECTION_NAME;
-
-  // Connect to the database
-  const knex = Knex({
-    client: 'pg',
-    connection: config
-  });
-  //console.log(config);
-  return knex;
-}
-
-
 app.get('/', function (req, res) {
   res.send("This is a server test. Hello");
 });
@@ -60,20 +42,7 @@ app.post('/user', jsonParser, function (req, res, next) {
     data.push(jsondata["phoneNumber"]);
     data.push(jsondata["userType"]);
 
-    insertNewUSer(data).then(() => {
-        res
-          .status(200)
-          .set('Content-Type', 'text/plain')
-          .send(`Successfully registered entry\n`)
-          .end();
-          return knex.destroy();
-      })
-      .catch((err) => {
-        next(err);
-        if (knex) {
-          knex.destroy();
-        }
-      });
+    insertNewUSer(data)
 });
 
 const PORT = process.env.PORT || 8080;
