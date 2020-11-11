@@ -13,11 +13,15 @@ const pool = new Pool({
   port: 5432,
 })
 
-function insertNewUSer(knex,data){
+function insertNewUSer(data){
     console.log("hola")
-    pool.query('INSERT INTO users ("user_id","name","lastName","phoneNumber","userType") VALUES %s ON CONFLICT DO NOTHING');
+    pool.query('INSERT INTO users ("user_id","name","lastName","phoneNumber","userType") VALUES ($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING', data, (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(201).send("User added")
+    })
 }
-
 
 function connect () {
   const config = {
@@ -56,9 +60,7 @@ app.post('/user', jsonParser, function (req, res, next) {
     data.push(jsondata["phoneNumber"]);
     data.push(jsondata["userType"]);
 
-    const knex = connect();
-
-    insertNewUSer(knex,data).then(() => {
+    insertNewUSer(data).then(() => {
         res
           .status(200)
           .set('Content-Type', 'text/plain')
