@@ -36,7 +36,7 @@ app.post('/user', jsonParser, function (req, res, next) {
 
     const data = []
 
-    data.push("");
+    data.push(null);
     data.push(jsondata["name"]);
     data.push(jsondata["lastName"]);
     data.push(jsondata["phoneNumber"]);
