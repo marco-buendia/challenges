@@ -9,7 +9,7 @@ var knex = require('knex')({
       user : 'qdlwgooewmhflu',
       password : 'ee8fdfbd8a9104e19451baa259bf78bb8be8f767a50d69e0d5c51e77015e6039',
       database : 'd6t60n7r9hfjua',
-      sslmode : 'require'
+      ssl : require
     }
 });
 const app = express();
@@ -19,6 +19,10 @@ function insertNewUSer(json){
     console.log("hola")
     return knex('users').insert(json);
 }
+
+app.get('/', function (req, res) {
+  res.send("This is a server test. Hello");
+});
 
 app.post('/user', jsonParser, function (req, res, next) {
 
