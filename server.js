@@ -24,7 +24,7 @@ function insertNewUSer(data){
 }
 
 function getUsers(){
-  pool.query('SELECT * FROM users order by userId', (error, results) => {
+  pool.query('SELECT * FROM users order by "userId"', (error, results) => {
     if (error) {
       throw error
     }
