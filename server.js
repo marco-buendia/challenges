@@ -86,7 +86,7 @@ app.get('/user', function (req,res){
     })
   }
 
-  res.send(users)
+  console.log(users)
 
 });
 
