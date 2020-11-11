@@ -15,7 +15,7 @@ const pool = new Pool({
 
 function insertNewUSer(data){
     console.log("hola")
-    pool.query('INSERT INTO users ("userId","name","lastName","phoneNumber","userType") VALUES ($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING', data, (error, results) => {
+    pool.query('INSERT INTO users ("name","lastName","phoneNumber","userType") VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING', data, (error, results) => {
       if (error) {
         throw error
       }
