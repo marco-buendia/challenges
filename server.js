@@ -23,6 +23,15 @@ function insertNewUSer(data){
     })
 }
 
+function getUsers(){
+  pool.query('SELECT * FROM users order by userId', (error, results) => {
+    if (error) {
+      throw error
+    }
+    return response.status(200).json(results.rows);
+  })
+}
+
 app.get('/', function (req, res) {
   res.send("This is a server test. Hello");
 });
@@ -34,15 +43,53 @@ app.post('/user', jsonParser, function (req, res, next) {
     var jsn = JSON.stringify(req.body);
     var jsondata = JSON.parse(jsn);
 
-    const data = []
+    if (jsondata["userType"] == "1"){
+      if(jsondata["phoneNumber"].startsWith("1")){
 
+        const data = []
     
-    data.push(jsondata["name"]);
-    data.push(jsondata["lastName"]);
-    data.push(jsondata["phoneNumber"]);
-    data.push(jsondata["userType"]);
+        data.push(jsondata["name"]);
+        data.push(jsondata["lastName"]);
+        data.push(jsondata["phoneNumber"]);
+        data.push(jsondata["userType"]);
 
-    insertNewUSer(data)
+        insertNewUSer(data)
+
+      }
+      else{
+        res.send("Incorrect user type or phone number")
+      }
+    }
+    else if (jsondata["userType"] == "2"){
+      if(jsondata["phoneNumber"].startsWith("52")){
+
+        const data = []
+    
+        data.push(jsondata["name"]);
+        data.push(jsondata["lastName"]);
+        data.push(jsondata["phoneNumber"]);
+        data.push(jsondata["userType"]);
+
+        insertNewUSer(data)
+
+      }
+      else{
+        res.send("Incorrect user type or phone number")
+      }
+    }
+
+    else{
+      res.send("User type does not exists")
+    }
+
+});
+
+app.get('/user', function (req,res){
+
+  users = getUsers()
+
+  console.log(users)
+
 });
 
 const PORT = process.env.PORT || 8080;
