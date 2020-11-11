@@ -8,8 +8,7 @@ var knex = require('knex')({
       host : 'ec2-3-214-46-194.compute-1.amazonaws.com',
       user : 'qdlwgooewmhflu',
       password : 'ee8fdfbd8a9104e19451baa259bf78bb8be8f767a50d69e0d5c51e77015e6039',
-      database : 'd6t60n7r9hfjua',
-      ssl : require
+      database : 'd6t60n7r9hfjua'
     }
 });
 const app = express();
