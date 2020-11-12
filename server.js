@@ -32,6 +32,24 @@ function createBenefactor(data){
   })
 }
 
+function addBeneficiary(userId, actualBenef, newBenef){
+  console.log("adding a benefactor")
+  finalArr = []
+  finalArr.push(userId)
+
+  arr = []
+  arr.push(actualBenef)
+  arr.push(newBenef)
+
+  finalArr.push(arr)
+  pool.query('UPDATE benefactors set "beneficiariesPhoneNumber" = $1 WHERE "userId" = $2', finalArr, (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send("Benefactor added")
+  })
+}
+
 function insertNewUSer(data){
     pool.query('INSERT INTO users ("name","lastName","phoneNumber","userType") VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING', data, (error, results) => {
       if (error) {
@@ -141,12 +159,11 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
     var finalJson = resp.rows;
     console.log(finalJson)
 
-    if(Object.keys(finalJson === 0)){
+    if(!Object.keys(obj).length == 0){
       createBenefactor(data)
     }
-    else{
-      numberOfBeneficiaries = finalJson.benefactorsPhoneNumber
-      console.log(numberOfBeneficiaries)
+    else if (finalJson["beneficiariesPhoneNumber"].length() == 1){
+      addBeneficiary(finalJson["userId"], finalJson["beneficiariesPhoneNumber"][0], jsondata[beneficiaryPhoneNumber])
     }
 
   })
