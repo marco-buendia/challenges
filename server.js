@@ -13,6 +13,15 @@ const pool = new Pool({
   port: 5432,
 })
 
+function insertNewCard(data){
+  pool.query('INSERT INTO cards ("cardNumber","userId","expDate") VALUES ($1,$2,$3) ON CONFLICT DO NOTHING', data, (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send("Card added")
+  })
+}
+
 function insertNewUSer(data){
     console.log("hola")
     pool.query('INSERT INTO users ("name","lastName","phoneNumber","userType") VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING', data, (error, results) => {
@@ -85,6 +94,23 @@ app.get('/user', function (req,res){
     res.send(finalJson)
   })
   .catch(err => console.error('Error executing query', err.stack))
+
+});
+
+app.post('/cards', jsonParser, function (req, res, next) {
+
+  console.log("card method")
+
+  var jsn = JSON.stringify(req.body);
+  var jsondata = JSON.parse(jsn);
+
+  data = []
+
+  data.push(jsondata["userId"]);
+  data.push(jsondata["cardNumber"]);
+  data.push(jsondata["expDate"]);
+
+  insertNewCard(data)
 
 });
 
