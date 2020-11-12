@@ -77,21 +77,14 @@ app.post('/user', jsonParser, function (req, res, next) {
 
 app.get('/user', function (req,res){
 
-  const users = (request, response) => {
-    pool.query('SELECT * FROM users ORDER BY "userId', (error, results) => {
-      if (error) {
-        throw error
-      }
-      console.log(results.rows[0])
-      
-    })
-  }
 
-  for(var i=0;i<users.length();i++){
-    console.log(users[i]);
-  }
-
-  //console.log(users)
+  pool.query('SELECT * FROM users ORDER BY "userId', (error, results) => {
+    if (error) {
+      throw error
+    }
+    console.log(results.rows[0])
+    
+  })
 
 });
 
