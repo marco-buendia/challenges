@@ -173,15 +173,20 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
 
   console.log(jsondata["userId"])
 
-  var beneficiaries = 0
-  pool.query('select u."userId", u."userType", b."beneficiariesPhoneNumber" from users u join benefactors b on  (u."userId" = b."userId") and u."userId" = ' + jsondata["userId"]).then(resp => {
+  pool.query('select "userType" from users where "userId = ' + jsondata["userId"]).then(resp =>{
+    var finalJson = resp.rows[0];
+
+    if(finalJson["userType"] ==2){
+      console.log("entro")
+      resp.send("beneficiary cant have beneficiaries")
+    }
+  })
+
+  pool.query('select * from benefactors where "userId" = ' + jsondata["userId"]).then(resp => {
     
     var finalJson = resp.rows[0];
     console.log(finalJson)
 
-    if(finalJson["userType"] == 2){
-      res.send("beneficiary cant have beneficiaries")
-    }
 
     if(typeof finalJson === 'undefined'){
       var data = [];
