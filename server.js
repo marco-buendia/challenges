@@ -312,7 +312,7 @@ app.get('/user/:user_id', function (req,res){
 
             console.log(finalJson)
 
-            var newDate = finalJson["expDate"].split("T")
+            var newDate = finalJson["expDate"].toString().split("T")
 
             console.log(newDate)
 
