@@ -172,11 +172,12 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
       console.log(data)
       addBeneficiary(data)
     }
+    else if (finalJson["beneficiariesPhoneNumber"].length >= 2){
+      res.send("User has already 2 beneficiaries")
+    }
 
   })
   .catch(err => console.error('Error executing query', err.stack))
-
-  //insertNewBenefactor(data);
 
 });
 
