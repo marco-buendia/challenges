@@ -302,6 +302,15 @@ app.get('/user/:user_id', function (req,res){
           console.log(names)
           console.log(ids)
 
+          lastDict = {"beneficiaries":names,"beneficiariesIds":ids}
+
+          var temp = finalJson
+          finalJson = {}
+          
+          Object.keys(temp).forEach(key => finalJson[key] = temp[key])
+          Object.keys(lastDict).forEach(key => finalJson[key] = lastDict[key])
+
+          console.log(finalJson)
 
         })
       })
