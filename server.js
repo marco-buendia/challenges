@@ -78,7 +78,11 @@ app.post('/user', jsonParser, function (req, res, next) {
 app.get('/user', function (req,res){
 
 
-  pool.query('SELECT * FROM users ORDER BY "userId"').then(res => console.log(res.rows[0])) // brianc
+  pool.query('SELECT * FROM users ORDER BY "userId"').then(res => {
+    for(var i = 0; i<res.rows.length;i++){
+      console.log(res.rows[i]);
+    }
+    })
   .catch(err => console.error('Error executing query', err.stack))
 
 });
