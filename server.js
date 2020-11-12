@@ -218,7 +218,7 @@ app.post('/benefactors', jsonParser, function (req, res, next) {
     var finalJson = resp.rows[0];
     console.log(finalJson)
 
-    if(!Object.keys(finalJson).length){
+    if(typeof finalJson === 'undefined'){
       var data = [];
       var arr = [];
       data.push(jsondata["userId"]);
