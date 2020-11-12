@@ -136,7 +136,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
   data.push(arr)
 
   var beneficiaries = 0
-  pool.query('SELECT * FROM benefactors where userId = ' + jsondata[0]).then(resp => {
+  pool.query('SELECT * FROM benefactors where "userId" = ' + jsondata[0]).then(resp => {
     
     finalJson = resp.rows;
 
