@@ -223,7 +223,16 @@ app.post('/benefactors', jsonParser, function (req, res, next) {
   var jsn = JSON.stringify(req.body);
   var jsondata = JSON.parse(jsn);
   console.log(jsondata)
-  var beneficiaries = 0
+
+  pool.query('select "userType" from users where "userId" = ' + jsondata["userId"]).then(resp =>{
+    var finalJson = resp.rows[0];
+
+    if(finalJson["userType"] ==1){
+      console.log("entro")
+      res.send("benefactors cant have benefactors")
+    }
+  })
+
   pool.query('SELECT * FROM beneficiaries where "userId" = ' + jsondata["userId"]).then(resp => {
     
     var finalJson = resp.rows[0];
