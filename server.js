@@ -263,6 +263,29 @@ app.post('/benefactors', jsonParser, function (req, res, next) {
 
 });
 
+app.get('/user/:user_id', function (req,res){
+
+  user_id = req.params.user_id
+  finalJson = {}
+
+  pool.query('SELECT * from users where "userId" = ' + user_id).then(resp => {
+    finalJson = resp.rows;
+    console.log(finalJson)
+  }).catch(err => console.error('Error executing query', err.stack))
+
+  pool.query('SELECT "cardNumber", "expDate" from cards where "userId" = ' + user_id).then(resp => {
+    var temp = finalJson
+    finalJson = {}
+    
+    Object.keys(temp).forEach(key => finalJson[key] = temp[key])
+    Object.keys(resp.rows).forEach(key => finalJson[key] = resp.rows[key])
+
+    console.log(finalJson)
+  }).catch(err => console.error('Error executing query', err.stack))
+
+
+})
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`App restarted`);
