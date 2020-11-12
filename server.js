@@ -104,7 +104,7 @@ app.post('/cards', jsonParser, function (req, res, next) {
   var jsn = JSON.stringify(req.body);
   var jsondata = JSON.parse(jsn);
 
-  data = []
+  var data = []
 
   data.push(jsondata["userId"]);
   data.push(jsondata["cardNumber"]);
