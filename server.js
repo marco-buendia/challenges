@@ -173,7 +173,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
 
   console.log(jsondata["userId"])
 
-  pool.query('select "userType" from users where "userId = ' + jsondata["userId"]).then(resp =>{
+  pool.query('select "userType" from users where "userId" = ' + jsondata["userId"]).then(resp =>{
     var finalJson = resp.rows[0];
 
     if(finalJson["userType"] ==2){
