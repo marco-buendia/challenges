@@ -18,7 +18,6 @@ function insertNewCard(data){
     if (error) {
       throw error
     }
-    response.status(201).send("Card added")
   })
 }
 
@@ -28,7 +27,6 @@ function createBeneficiary(data){
     if (error) {
       throw error
     }
-    response.status(201).send("beneficiary created")
   })
 }
 
@@ -38,7 +36,6 @@ function createBenefactor(data){
     if (error) {
       throw error
     }
-    response.status(201).send("Benefactor created")
   })
 }
 
@@ -54,7 +51,7 @@ function addBeneficiary(data){
     if (error) {
       throw error
     }
-    response.status(201).send("Benefactor added")
+    
   })
 }
 
@@ -70,7 +67,7 @@ function addBenefactor(data){
     if (error) {
       throw error
     }
-    response.status(201).send("Beneficiary added")
+  
   })
 }
 
@@ -79,7 +76,7 @@ function insertNewUSer(data){
       if (error) {
         throw error
       }
-      response.status(201).send("User added")
+
     })
 }
 
