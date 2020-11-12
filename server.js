@@ -177,7 +177,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
     var finalJson = resp.rows[0];
     console.log(finalJson)
 
-    if(!Object.keys(finalJson).length){
+    if(typeof finalJson === 'undefined'){
       var data = [];
       var arr = [];
       data.push(jsondata["userId"]);
@@ -226,7 +226,7 @@ app.post('/benefactors', jsonParser, function (req, res, next) {
       data.push(arr)
       createBeneficiary(data)
     }
-    if (finalJson["benefactorPhoneNumber"].length == 1){
+    if (finalJson["benefactorsPhoneNumber"].length == 1){
 
       var data = [];
       var arr = [];
