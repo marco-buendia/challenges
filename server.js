@@ -102,7 +102,7 @@ app.post('/user', jsonParser, function (req, res, next) {
         data.push(jsondata["userType"]);
 
         insertNewUSer(data)
-
+        res.send("created user successfully")
       }
       else{
         res.send("Incorrect user type or phone number")
@@ -167,6 +167,7 @@ app.post('/cards', jsonParser, function (req, res, next) {
 
     if(jsondata["cardNumber"].toString().length == 16){
       insertNewCard(data);
+      res.send("card created succesfully")
     }
   
     else{
@@ -208,6 +209,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
       arr.push(jsondata["beneficiaryPhoneNumber"]);
       data.push(arr)
       createBenefactor(data)
+      res.send("created benefactor and added beneficiary succesfully")
     }
     if (finalJson["beneficiariesPhoneNumber"].length == 1){
 
@@ -219,6 +221,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
       data.push(arr)
       console.log(data)
       addBeneficiary(data)
+      res.send("added beneficiary succesfully")
     }
     else if (finalJson["beneficiariesPhoneNumber"].length >= 2){
       res.send("User has already 2 beneficiaries")
@@ -258,6 +261,7 @@ app.post('/benefactors', jsonParser, function (req, res, next) {
       arr.push(jsondata["benefactorPhoneNumber"]);
       data.push(arr)
       createBeneficiary(data)
+      res.send("created beneficiary and added benefactor succesfully")
     }
     if (finalJson["benefactorsPhoneNumber"].length == 1){
 
@@ -269,6 +273,7 @@ app.post('/benefactors', jsonParser, function (req, res, next) {
       data.push(arr)
       console.log(data)
       addBenefactor(data)
+      res.send("added benefactor succesfully")
     }
     else if (finalJson["benefactorsPhoneNumber"].length >= 2){
       res.send("User has already 2 benefactors")
@@ -313,6 +318,37 @@ app.get('/user/:user_id', function (req,res){
             }
 
             var lastDict = {"beneficiaries":names,"beneficiariesIds":ids}
+
+            var temp = finalJson
+            finalJson = {}
+            
+            Object.keys(temp).forEach(key => finalJson[key] = temp[key])
+            Object.keys(lastDict).forEach(key => finalJson[key] = lastDict[key])
+
+            res.send(finalJson)
+
+          })
+        })
+      }
+
+      else {
+        pool.query('SELECT "benefactorsPhoneNumber" from beneficiaries where "userId" = ' + user_id).then(resp2 => {
+    
+          var numbers = resp2.rows[0]["benefactorsPhoneNumber"].toString()
+          numbers = "'" + numbers + "'"
+          numbers = numbers.replace(',',"','")
+    
+          pool.query('select "userId", "name" from users where "phoneNumber" in ('+ numbers+ ')').then(resp3 => {
+
+            var names = []
+            var ids = []
+
+            for(var i = 0; i< resp3.rows.length;i++){
+              names.push(resp3.rows[i]["name"])
+              ids.push(resp3.rows[i]["userId"])
+            }
+
+            var lastDict = {"benefactors":names,"benefactorsIds":ids}
 
             var temp = finalJson
             finalJson = {}
