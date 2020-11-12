@@ -320,11 +320,11 @@ app.delete('/user/:user_id', function (req,res){
 
   var user_id = req.params.user_id
 
-  pool.query("delete from users where userId = " + user_id).then(resp => {
+  pool.query('delete from users where "userId" = ' + user_id).then(resp => {
 
-    pool.query("delete from cards where userId = " + user_id).then(resp => {
-      pool.query("delete from benefactors where userId = " + user_id).then(resp => {
-        pool.query("delete from beneficiaries where userId = " + user_id).then(resp => {
+    pool.query('delete from cards where "userId" = ' + user_id).then(resp => {
+      pool.query('delete from benefactors where "userId" = ' + user_id).then(resp => {
+        pool.query('delete from beneficiaries where "userId" = ' + user_id).then(resp => {
           res.send("Deleted id from database")
         })
 
