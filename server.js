@@ -99,18 +99,17 @@ app.get('/user', function (req,res){
 
 app.post('/cards', jsonParser, function (req, res, next) {
 
-  console.log("card method")
+  console.log("card method");
 
   var jsn = JSON.stringify(req.body);
   var jsondata = JSON.parse(jsn);
 
-  var data = []
-
-  data.push(jsondata["userId"]);
+  var data = [];
   data.push(jsondata["cardNumber"]);
+  data.push(jsondata["userId"]);
   data.push(jsondata["expDate"]);
 
-  insertNewCard(data)
+  insertNewCard(data);
 
 });
 
