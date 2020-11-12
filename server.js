@@ -40,6 +40,9 @@ function addBeneficiary(userId, actualBenef, newBenef){
   var finalArr = []
   finalArr.push(userId)
   finalArr.push(actualBenef)
+
+  console.log(finalArr)
+
   pool.query('UPDATE benefactors set "beneficiariesPhoneNumber" = $1 WHERE "userId" = $2', finalArr, (error, results) => {
     if (error) {
       throw error
