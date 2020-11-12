@@ -157,7 +157,13 @@ app.post('/cards', jsonParser, function (req, res, next) {
   data.push(jsondata["cardNumber"]);
   data.push(jsondata["expDate"]);
 
-  insertNewCard(data);
+  if(jsondata["cardNumber"].toString().length == 16){
+    insertNewCard(data);
+  }
+
+  else{
+    res.send("Numero de tarjeta no válida")
+  }  
 
 });
 
