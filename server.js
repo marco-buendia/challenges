@@ -82,13 +82,9 @@ app.get('/user', function (req,res){
       if (error) {
         throw error
       }
-      results.rows
+      res.send(response.status(200).json(results.rows))
     })
   }
-
-  console.log(users)
-
-  res.send("ok")
 
 });
 
