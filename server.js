@@ -156,13 +156,13 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
   var beneficiaries = 0
   pool.query('SELECT * FROM benefactors where "userId" = ' + jsondata["userId"]).then(resp => {
     
-    var finalJson = resp.rows;
+    var finalJson = resp.rows[0];
     console.log(finalJson)
 
     if(!Object.keys(finalJson).length){
       createBenefactor(data)
     }
-    if (finalJson[0]["beneficiariesPhoneNumber"].length() == 1){
+    if (finalJson["beneficiariesPhoneNumber"].length() == 1){
       addBeneficiary(finalJson["userId"], finalJson["beneficiariesPhoneNumber"][0], jsondata[beneficiaryPhoneNumber])
     }
 
