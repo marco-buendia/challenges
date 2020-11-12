@@ -231,7 +231,7 @@ app.post('/benefactors', jsonParser, function (req, res, next) {
       var data = [];
       var arr = [];
       data.push(jsondata["userId"]);
-      arr.push(finalJson["benefactorPhoneNumber"][0])
+      arr.push(finalJson["benefactorsPhoneNumber"][0])
       arr.push(jsondata["benefactorPhoneNumber"]);
       data.push(arr)
       console.log(data)
