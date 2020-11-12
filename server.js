@@ -159,7 +159,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
     var finalJson = resp.rows;
     console.log(finalJson)
 
-    if(!Object.keys(obj).length){
+    if(!Object.keys(finalJson).length){
       createBenefactor(data)
     }
     if (finalJson["beneficiariesPhoneNumber"].length() == 1){
