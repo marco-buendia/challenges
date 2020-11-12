@@ -310,7 +310,7 @@ app.get('/user/:user_id', function (req,res){
             Object.keys(temp).forEach(key => finalJson[key] = temp[key])
             Object.keys(lastDict).forEach(key => finalJson[key] = lastDict[key])
 
-            console.log(finalJson)
+            console.log(typeof finalJson["expDate"])
 
             var newDate = finalJson["expDate"].toString().split("T")
 
