@@ -87,7 +87,11 @@ app.get('/user', function (req,res){
     })
   }
 
-  console.log(users)
+  for(var i=0;i<users.length();i++){
+    console.log(users[i]);
+  }
+
+  //console.log(users)
 
 });
 
