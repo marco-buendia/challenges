@@ -157,7 +157,7 @@ app.post('/cards', jsonParser, function (req, res, next) {
   data.push(jsondata["cardNumber"]);
   data.push(jsondata["expDate"]);
 
-  let isnum = /^\d+$/.test(val);
+  let isnum = /^\d+$/.test(jsondata["cardNumber"].toString());
   console.log(isnum)
 
   if(jsondata["cardNumber"].toString().length == 16){
