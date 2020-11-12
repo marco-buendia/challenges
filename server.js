@@ -171,7 +171,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
   var jsn = JSON.stringify(req.body);
   var jsondata = JSON.parse(jsn);
 
-  console.log(jsondata)
+  console.log(jsondata["userId"])
 
   var beneficiaries = 0
   pool.query('select u."userId", u."userType", b."beneficiariesPhoneNumber" from users u join benefactors b on  (u."userId" = b."userId") and u."userId" = ' + jsondata["userId"]).then(resp => {
