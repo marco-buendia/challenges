@@ -83,6 +83,7 @@ app.get('/user', function (req,res){
         throw error
       }
       response.status(200).json(results.rows)
+      console.log(results.rows)
     })
   }
 
