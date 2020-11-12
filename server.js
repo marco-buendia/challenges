@@ -178,7 +178,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
 
     if(finalJson["userType"] ==2){
       console.log("entro")
-      resp.send("beneficiary cant have beneficiaries")
+      res.send("beneficiary cant have beneficiaries")
     }
   })
 
