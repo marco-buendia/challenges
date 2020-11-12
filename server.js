@@ -82,9 +82,11 @@ app.get('/user', function (req,res){
       if (error) {
         throw error
       }
-      res.send(response.status(200).json(results.rows))
+      response.status(200).json(results.rows)
     })
   }
+
+  console.log(module.exports(users))
 
 });
 
