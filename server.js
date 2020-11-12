@@ -22,13 +22,23 @@ function insertNewCard(data){
   })
 }
 
+function createBeneficiary(data){
+  console.log("creating a beneficiary")
+  pool.query('INSERT INTO beneficiaries ("userId","benefactorsPhoneNumber") VALUES ($1,$2) ON CONFLICT DO NOTHING', data, (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send("beneficiary created")
+  })
+}
+
 function createBenefactor(data){
   console.log("creating a benefactor")
   pool.query('INSERT INTO benefactors ("userId","beneficiariesPhoneNumber") VALUES ($1,$2) ON CONFLICT DO NOTHING', data, (error, results) => {
     if (error) {
       throw error
     }
-    response.status(201).send("Benefactor added")
+    response.status(201).send("Benefactor created")
   })
 }
 
@@ -45,6 +55,22 @@ function addBeneficiary(data){
       throw error
     }
     response.status(201).send("Benefactor added")
+  })
+}
+
+function addBenefactor(data){
+  console.log("adding a beneficiary")
+
+  var arr = []
+  arr.push(data[1][0])
+  arr.push(data[1][1])
+  var arr1 = []
+  arr1.push(arr)
+  pool.query('UPDATE beneficiaries set "benefactorsPhoneNumber" = $1 WHERE "userId" = ' + data[0], arr1, (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send("Beneficiary added")
   })
 }
 
@@ -145,8 +171,6 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
   var jsn = JSON.stringify(req.body);
   var jsondata = JSON.parse(jsn);
 
-  
-
   var beneficiaries = 0
   pool.query('SELECT * FROM benefactors where "userId" = ' + jsondata["userId"]).then(resp => {
     
@@ -174,6 +198,47 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
     }
     else if (finalJson["beneficiariesPhoneNumber"].length >= 2){
       res.send("User has already 2 beneficiaries")
+    }
+
+  })
+  .catch(err => console.error('Error executing query', err.stack))
+
+});
+
+app.post('/benefactors', jsonParser, function (req, res, next) {
+
+  console.log("benefactors method");
+
+  var jsn = JSON.stringify(req.body);
+  var jsondata = JSON.parse(jsn);
+
+  var beneficiaries = 0
+  pool.query('SELECT * FROM beneficiaries where "userId" = ' + jsondata["userId"]).then(resp => {
+    
+    var finalJson = resp.rows[0];
+    console.log(finalJson)
+
+    if(!Object.keys(finalJson).length){
+      var data = [];
+      var arr = [];
+      data.push(jsondata["userId"]);
+      arr.push(jsondata["benefactorPhoneNumber"]);
+      data.push(arr)
+      createBeneficiary(data)
+    }
+    if (finalJson["benefactorPhoneNumber"].length == 1){
+
+      var data = [];
+      var arr = [];
+      data.push(jsondata["userId"]);
+      arr.push(finalJson["benefactorPhoneNumber"][0])
+      arr.push(jsondata["benefactorPhoneNumber"]);
+      data.push(arr)
+      console.log(data)
+      addBenefactor(data)
+    }
+    else if (finalJson["benefactorsPhoneNumber"].length >= 2){
+      res.send("User has already 2 benefactors")
     }
 
   })
