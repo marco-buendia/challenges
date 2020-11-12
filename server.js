@@ -149,7 +149,6 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
       console.log(numberOfBeneficiaries)
     }
 
-    console.log(finalJson)
   })
   .catch(err => console.error('Error executing query', err.stack))
 
