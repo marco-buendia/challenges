@@ -80,7 +80,7 @@ app.get('/user', function (req,res){
 
   pool.query('SELECT * FROM users ORDER BY "userId', (error, results) => {
     if (error) {
-      throw error
+      return "Error excecuting query"
     }
     console.log(results.rows[0])
     
