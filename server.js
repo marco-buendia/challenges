@@ -23,6 +23,7 @@ function insertNewCard(data){
 }
 
 function createBenefactor(data){
+  console.log("creating a benefactor")
   pool.query('INSERT INTO benefactors ("userId","beneficiariesPhoneNumber") VALUES ($1,$2) ON CONFLICT DO NOTHING', data, (error, results) => {
     if (error) {
       throw error
@@ -151,7 +152,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
   })
   .catch(err => console.error('Error executing query', err.stack))
 
-  insertNewBenefactor(data);
+  //insertNewBenefactor(data);
 
 });
 
