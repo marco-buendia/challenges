@@ -34,7 +34,11 @@ function createBenefactor(data){
 
 function addBeneficiary(userId, actualBenef, newBenef){
   console.log("adding a benefactor")
-  finalArr = []
+  
+  console.log(actualBenef)
+  console.log(newBenef)
+
+  /*finalArr = []
   finalArr.push(userId)
 
   arr = []
@@ -47,7 +51,7 @@ function addBeneficiary(userId, actualBenef, newBenef){
       throw error
     }
     response.status(201).send("Benefactor added")
-  })
+  })*/
 }
 
 function insertNewUSer(data){
@@ -163,7 +167,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
       createBenefactor(data)
     }
     if (finalJson["beneficiariesPhoneNumber"].length == 1){
-      addBeneficiary(finalJson["userId"], finalJson["beneficiariesPhoneNumber"][0], jsondata[beneficiaryPhoneNumber])
+      addBeneficiary(finalJson["userId"], finalJson["beneficiariesPhoneNumber"], jsondata[beneficiaryPhoneNumber])
     }
 
   })
