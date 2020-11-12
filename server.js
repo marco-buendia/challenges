@@ -289,13 +289,14 @@ app.get('/user/:user_id', function (req,res){
         var numbers = resp.rows[0]["beneficiariesPhoneNumber"].toString()
         console.log(numbers)
   
-        //pool.query('select "userId", "name" from users where "phoneNumber" in (' + numbers[0] + ',' + numbers[1] + ')')
-      }).catch(err => console.error('Error executing query', err.stack))
-    }
+        pool.query('select "userId", "name" from users where "phoneNumber" in ('+ numbers+ ')').then(resp1 => {
 
-    
-  }).catch(err => console.error('Error executing query', err.stack))
-  
+          console.log(resp1.rows)
+
+
+      })
+  })
+}
   
 
 
