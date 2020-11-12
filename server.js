@@ -77,15 +77,16 @@ app.post('/user', jsonParser, function (req, res, next) {
 
 app.get('/user', function (req,res){
 
-  var json = {}
+  var finalJson = {}
 
-  pool.query('SELECT * FROM users ORDER BY "userId"').then(res => {
+  pool.query('SELECT * FROM users ORDER BY "userId"').then(resp => {
     
-    json = res.rows;
+    finalJson = resp.rows;
+    console.log(finalJson)
   })
   .catch(err => console.error('Error executing query', err.stack))
-
-    res.send(json)
+    console.log(finalJson)
+    res.send(finalJson)
 
 });
 
