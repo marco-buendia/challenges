@@ -287,8 +287,8 @@ app.get('/user/:user_id', function (req,res){
       pool.query('SELECT "beneficiariesPhoneNumber" from benefactors where "userId" = ' + user_id).then(resp => {
   
         var numbers = resp.rows[0]["beneficiariesPhoneNumber"].toString()
-        numbers = '"' + numbers + '"'
-        numbers = numbers.replace(',','","')
+        numbers = "'" + numbers + "'"
+        numbers = numbers.replace(',',"','")
         console.log(numbers)
   
         pool.query('select "userId", "name" from users where "phoneNumber" in ('+ numbers+ ')').then(resp1 => {
