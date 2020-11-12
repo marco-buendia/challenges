@@ -22,8 +22,16 @@ function insertNewCard(data){
   })
 }
 
+function createBenefactor(data){
+  pool.query('INSERT INTO benefactors ("userId","beneficiariesPhoneNumber") VALUES ($1,$2) ON CONFLICT DO NOTHING', data, (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send("Benefactor added")
+  })
+}
+
 function insertNewUSer(data){
-    console.log("hola")
     pool.query('INSERT INTO users ("name","lastName","phoneNumber","userType") VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING', data, (error, results) => {
       if (error) {
         throw error
@@ -110,6 +118,40 @@ app.post('/cards', jsonParser, function (req, res, next) {
   data.push(jsondata["expDate"]);
 
   insertNewCard(data);
+
+});
+
+app.post('/beneficiaries', jsonParser, function (req, res, next) {
+
+  console.log("beneficiaries method");
+
+  var jsn = JSON.stringify(req.body);
+  var jsondata = JSON.parse(jsn);
+
+  var data = [];
+  var dict = {}
+  data.push(jsondata["userId"]);
+  dict.push(jsondata["beneficiaryPhoneNumber"]);
+  data.push(dict)
+
+  var beneficiaries = 0
+  pool.query('SELECT * FROM benefactors where userId = ' + jsondata[0]).then(resp => {
+    
+    finalJson = resp.rows;
+
+    if(Object.keys(finalJson === 0)){
+      createBenefactor(data)
+    }
+    else{
+      numberOfBeneficiaries = finalJson.benefactorsPhoneNumber
+      console.log(numberOfBeneficiaries)
+    }
+
+    console.log(finalJson)
+  })
+  .catch(err => console.error('Error executing query', err.stack))
+
+  insertNewBenefactor(data);
 
 });
 
