@@ -270,7 +270,6 @@ app.get('/user/:user_id', function (req,res){
 
   pool.query('SELECT * from users where "userId" = ' + user_id).then(resp => {
     finalJson = resp.rows[0];
-    console.log(finalJson)
   
 
     pool.query('SELECT "cardNumber", "expDate" from cards where "userId" = ' + user_id).then(resp1 => {
@@ -280,10 +279,7 @@ app.get('/user/:user_id', function (req,res){
       Object.keys(temp).forEach(key => finalJson[key] = temp[key])
       Object.keys(resp1.rows[0]).forEach(key => finalJson[key] = resp1.rows[0][key])
 
-      console.log(finalJson)
-
       if(finalJson["userType"] == 1){
-        console.log("final query")
         pool.query('SELECT "beneficiariesPhoneNumber" from benefactors where "userId" = ' + user_id).then(resp2 => {
     
           var numbers = resp2.rows[0]["beneficiariesPhoneNumber"].toString()
@@ -299,8 +295,6 @@ app.get('/user/:user_id', function (req,res){
               names.push(resp3.rows[i]["name"])
               ids.push(resp3.rows[i]["userId"])
             }
-            console.log(names)
-            console.log(ids)
 
             var lastDict = {"beneficiaries":names,"beneficiariesIds":ids}
 
@@ -324,7 +318,7 @@ app.get('/user/:user_id', function (req,res){
 
 app.delete('/user/:user_id', function (req,res){
 
-  user_id = req.params.user_id
+  var user_id = req.params.user_id
 
   pool.query("delete from users where user_id = " + user_id).then(resp => {
 
