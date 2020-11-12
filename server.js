@@ -283,6 +283,17 @@ app.get('/user/:user_id', function (req,res){
     console.log(finalJson)
   }).catch(err => console.error('Error executing query', err.stack))
 
+  if(finalJson["userType"] == 1){
+    console.log("final query")
+    pool.query('SELECT "beneficiariesPhoneNumber" from benefactors where "userId" = ' + user_id).then(resp => {
+
+      var numbers = resp.rows[0].toString()
+      console.log(numbers)
+
+      //pool.query('select "userId", "name" from users where "phoneNumber" in (' + numbers[0] + ',' + numbers[1] + ')')
+    }).catch(err => console.error('Error executing query', err.stack))
+  }
+
 
 })
 
