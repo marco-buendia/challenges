@@ -32,18 +32,10 @@ function createBenefactor(data){
   })
 }
 
-function addBeneficiary(userId, actualBenef, newBenef){
+function addBeneficiary(data){
   console.log("adding a benefactor")
-  
-  actualBenef.push(newBenef)
 
-  var finalArr = []
-  finalArr.push(userId)
-  finalArr.push(actualBenef)
-
-  console.log(finalArr)
-
-  pool.query('UPDATE benefactors set "beneficiariesPhoneNumber" = $1 WHERE "userId" = $2', finalArr, (error, results) => {
+  pool.query('UPDATE benefactors set "beneficiariesPhoneNumber" = $1 WHERE "userId" = $2', data, (error, results) => {
     if (error) {
       throw error
     }
@@ -148,11 +140,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
   var jsn = JSON.stringify(req.body);
   var jsondata = JSON.parse(jsn);
 
-  var data = [];
-  var arr = [];
-  data.push(jsondata["userId"]);
-  arr.push(jsondata["beneficiaryPhoneNumber"]);
-  data.push(arr)
+  
 
   var beneficiaries = 0
   pool.query('SELECT * FROM benefactors where "userId" = ' + jsondata["userId"]).then(resp => {
@@ -161,10 +149,23 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
     console.log(finalJson)
 
     if(!Object.keys(finalJson).length){
+      var data = [];
+      var arr = [];
+      data.push(jsondata["userId"]);
+      arr.push(jsondata["beneficiaryPhoneNumber"]);
+      data.push(arr)
       createBenefactor(data)
     }
     if (finalJson["beneficiariesPhoneNumber"].length == 1){
-      addBeneficiary(finalJson["userId"], finalJson["beneficiariesPhoneNumber"], jsondata["beneficiaryPhoneNumber"])
+
+      var data = [];
+      var arr = [];
+      data.push(jsondata["userId"]);
+      arr.push(finalJson["beneficiariesPhoneNumber"][0])
+      arr.push(jsondata["beneficiaryPhoneNumber"]);
+      data.push(arr)
+
+      addBeneficiary(data)
     }
 
   })
