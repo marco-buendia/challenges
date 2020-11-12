@@ -294,13 +294,14 @@ app.get('/user/:user_id', function (req,res){
           console.log(resp1.rows)
 
 
+        })
       })
-  })
-}
+    }
   
-
+  })
 
 })
+
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
