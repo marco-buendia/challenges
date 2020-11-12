@@ -35,7 +35,9 @@ function createBenefactor(data){
 function addBeneficiary(data){
   console.log("adding a benefactor")
 
-  var arr = "[" + data[1][0] + "," + data[1][1] + "]"
+  var arr = []
+  arr.push(data[1][0])
+  arr.push(data[1][1])
   var arr1 = []
   arr1.push(arr)
   pool.query('UPDATE benefactors set "beneficiariesPhoneNumber" = $1 WHERE "userId" = ' + data[0], arr1, (error, results) => {
