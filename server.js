@@ -322,6 +322,25 @@ app.get('/user/:user_id', function (req,res){
 
 })
 
+app.delete('/user/:user_id', function (req,res){
+
+  user_id = req.params.user_id
+
+  pool.query("delete from users where user_id = " + user_id).then(resp => {
+
+    pool.query("delete from cards where user_id = " + user_id).then(resp => {
+      pool.query("delete from benefactors where user_id = " + user_id).then(resp => {
+        pool.query("delete from beneficiaries where user_id = " + user_id).then(resp => {
+          res.send("Deleted id from database")
+        })
+
+      })
+
+    })
+
+  })
+
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
