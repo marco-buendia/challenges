@@ -175,7 +175,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
 
     if(finalJson["userType"] ==2){
       console.log("entro")
-      res.send("beneficiary cant have beneficiaries")
+      return res.send("beneficiary cant have beneficiaries")
     }
   })
 
@@ -226,7 +226,7 @@ app.post('/benefactors', jsonParser, function (req, res, next) {
 
     if(finalJson["userType"] ==1){
       console.log("entro")
-      res.send("benefactors cant have benefactors")
+      return res.send("benefactors cant have benefactors")
     }
   })
 
