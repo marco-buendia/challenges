@@ -158,17 +158,22 @@ app.post('/cards', jsonParser, function (req, res, next) {
   data.push(jsondata["expDate"]);
 
   let isnum = /^\d+$/.test(jsondata["cardNumber"].toString());
-  console.log(isnum)
 
-  if(jsondata["cardNumber"].toString().length == 16){
-    insertNewCard(data);
+  if(!isnum){
+  res.send("The card number can only contains digits")
   }
 
   else{
-    res.send("The card number doesnt have 16 digits")
-  }  
 
+    if(jsondata["cardNumber"].toString().length == 16){
+      insertNewCard(data);
+    }
   
+    else{
+      res.send("The card number doesnt have 16 digits")
+    }  
+
+  }
 
 });
 
