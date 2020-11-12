@@ -82,7 +82,7 @@ app.get('/user', function (req,res){
     if (error) {
       res.send("Error excecuting query")
     }
-    res.send(results.rows)
+    res.send(results.rows[0])
     
   })
 
