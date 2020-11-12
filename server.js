@@ -82,7 +82,7 @@ app.get('/user', function (req,res){
     /*for(var i = 0; i<res.rows.length;i++){
       console.log(res.rows[i]);
     }*/
-    console.log(res.rows)
+    res.send(res.rows)
     })
   .catch(err => console.error('Error executing query', err.stack))
 
