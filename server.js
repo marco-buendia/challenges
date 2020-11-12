@@ -312,6 +312,10 @@ app.get('/user/:user_id', function (req,res){
 
             console.log(finalJson)
 
+            finalJson["expDate"] = finalJson["expDate"].split("T")[0]
+
+            console.log(finalJson)
+
           })
         })
       }
