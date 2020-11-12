@@ -14,7 +14,7 @@ const pool = new Pool({
 })
 
 function insertNewCard(data){
-  pool.query('INSERT INTO cards ("cardNumber","userId","expDate") VALUES ($1,$2,$3) ON CONFLICT DO NOTHING', data, (error, results) => {
+  pool.query('INSERT INTO cards ("userId","cardNumber","expDate") VALUES ($1,$2,$3) ON CONFLICT DO NOTHING', data, (error, results) => {
     if (error) {
       throw error
     }
@@ -105,8 +105,8 @@ app.post('/cards', jsonParser, function (req, res, next) {
   var jsondata = JSON.parse(jsn);
 
   var data = [];
-  data.push(jsondata["cardNumber"]);
   data.push(jsondata["userId"]);
+  data.push(jsondata["cardNumber"]);
   data.push(jsondata["expDate"]);
 
   insertNewCard(data);
