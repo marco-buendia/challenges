@@ -271,52 +271,54 @@ app.get('/user/:user_id', function (req,res){
   pool.query('SELECT * from users where "userId" = ' + user_id).then(resp => {
     finalJson = resp.rows[0];
     console.log(finalJson)
-  }).catch(err => console.error('Error executing query', err.stack))
+  
 
-  pool.query('SELECT "cardNumber", "expDate" from cards where "userId" = ' + user_id).then(resp => {
-    var temp = finalJson
-    finalJson = {}
+    pool.query('SELECT "cardNumber", "expDate" from cards where "userId" = ' + user_id).then(resp1 => {
+      var temp = finalJson
+      finalJson = {}
+      
+      Object.keys(temp).forEach(key => finalJson[key] = temp[key])
+      Object.keys(resp1.rows[0]).forEach(key => finalJson[key] = resp1.rows[0][key])
+
+      console.log(finalJson)
+
+      if(finalJson["userType"] == 1){
+        console.log("final query")
+        pool.query('SELECT "beneficiariesPhoneNumber" from benefactors where "userId" = ' + user_id).then(resp2 => {
     
-    Object.keys(temp).forEach(key => finalJson[key] = temp[key])
-    Object.keys(resp.rows[0]).forEach(key => finalJson[key] = resp.rows[0][key])
+          var numbers = resp2.rows[0]["beneficiariesPhoneNumber"].toString()
+          numbers = "'" + numbers + "'"
+          numbers = numbers.replace(',',"','")
+    
+          pool.query('select "userId", "name" from users where "phoneNumber" in ('+ numbers+ ')').then(resp3 => {
 
-    console.log(finalJson)
+            var names = []
+            var ids = []
 
-    if(finalJson["userType"] == 1){
-      console.log("final query")
-      pool.query('SELECT "beneficiariesPhoneNumber" from benefactors where "userId" = ' + user_id).then(resp => {
-  
-        var numbers = resp.rows[0]["beneficiariesPhoneNumber"].toString()
-        numbers = "'" + numbers + "'"
-        numbers = numbers.replace(',',"','")
-  
-        pool.query('select "userId", "name" from users where "phoneNumber" in ('+ numbers+ ')').then(resp1 => {
+            for(var i = 0; i< resp3.rows.length;i++){
+              names.push(resp3.rows[i]["name"])
+              ids.push(resp3.rows[i]["userId"])
+            }
+            console.log(names)
+            console.log(ids)
 
-          var names = []
-          var ids = []
+            var lastDict = {"beneficiaries":names,"beneficiariesIds":ids}
 
-          for(var i = 0; i< resp1.rows.length;i++){
-            names.push(resp1.rows[i]["name"])
-            ids.push(resp1.rows[i]["userId"])
-          }
-          console.log(names)
-          console.log(ids)
+            var temp = finalJson
+            finalJson = {}
+            
+            Object.keys(temp).forEach(key => finalJson[key] = temp[key])
+            Object.keys(lastDict).forEach(key => finalJson[key] = lastDict[key])
 
-          lastDict = {"beneficiaries":names,"beneficiariesIds":ids}
+            console.log(finalJson)
 
-          var temp = finalJson
-          finalJson = {}
-          
-          Object.keys(temp).forEach(key => finalJson[key] = temp[key])
-          Object.keys(lastDict).forEach(key => finalJson[key] = lastDict[key])
-
-          console.log(finalJson)
-
+          })
         })
-      })
-    }
-  
-  })
+      }
+    
+    })
+
+})
 
 })
 
