@@ -162,7 +162,7 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
     if(!Object.keys(finalJson).length){
       createBenefactor(data)
     }
-    if (finalJson["beneficiariesPhoneNumber"].length() == 1){
+    if (finalJson[0]["beneficiariesPhoneNumber"].length() == 1){
       addBeneficiary(finalJson["userId"], finalJson["beneficiariesPhoneNumber"][0], jsondata[beneficiaryPhoneNumber])
     }
 
