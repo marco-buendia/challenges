@@ -82,7 +82,7 @@ app.get('/user', function (req,res){
       if (error) {
         throw error
       }
-      res.send(response.status(200).json(results.rows))
+      console.log(results.rows[0])
       
     })
   }
