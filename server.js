@@ -87,8 +87,6 @@ app.get('/user', function (req,res){
     })
   }
 
-  console.log(module.exports(users))
-
 });
 
 const PORT = process.env.PORT || 8080;
