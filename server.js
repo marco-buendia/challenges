@@ -129,10 +129,10 @@ app.post('/beneficiaries', jsonParser, function (req, res, next) {
   var jsondata = JSON.parse(jsn);
 
   var data = [];
-  var dict = {}
+  var arr = [];
   data.push(jsondata["userId"]);
-  dict.push(jsondata["beneficiaryPhoneNumber"]);
-  data.push(dict)
+  arr.push(jsondata["beneficiaryPhoneNumber"]);
+  data.push(arr)
 
   var beneficiaries = 0
   pool.query('SELECT * FROM benefactors where userId = ' + jsondata[0]).then(resp => {
