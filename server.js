@@ -269,7 +269,7 @@ app.get('/user/:user_id', function (req,res){
   var finalJson = {}
 
   pool.query('SELECT * from users where "userId" = ' + user_id).then(resp => {
-    finalJson = resp.rows;
+    finalJson = resp.rows[0];
     console.log(finalJson)
   }).catch(err => console.error('Error executing query', err.stack))
 
@@ -278,7 +278,7 @@ app.get('/user/:user_id', function (req,res){
     finalJson = {}
     
     Object.keys(temp).forEach(key => finalJson[key] = temp[key])
-    Object.keys(resp.rows).forEach(key => finalJson[key] = resp.rows[key])
+    Object.keys(resp.rows[0]).forEach(key => finalJson[key] = resp.rows[0][key])
 
     console.log(finalJson)
   }).catch(err => console.error('Error executing query', err.stack))
