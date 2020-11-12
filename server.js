@@ -280,9 +280,9 @@ app.get('/user/:user_id', function (req,res){
     Object.keys(temp).forEach(key => finalJson[key] = temp[key])
     Object.keys(resp.rows[0]).forEach(key => finalJson[key] = resp.rows[0][key])
 
-    console.log(finalJson)
+    
   }).catch(err => console.error('Error executing query', err.stack))
-
+  console.log(finalJson)
   if(finalJson["userType"] == 1){
     console.log("final query")
     pool.query('SELECT "beneficiariesPhoneNumber" from benefactors where "userId" = ' + user_id).then(resp => {
