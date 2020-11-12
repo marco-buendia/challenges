@@ -289,11 +289,18 @@ app.get('/user/:user_id', function (req,res){
         var numbers = resp.rows[0]["beneficiariesPhoneNumber"].toString()
         numbers = "'" + numbers + "'"
         numbers = numbers.replace(',',"','")
-        console.log(numbers)
   
         pool.query('select "userId", "name" from users where "phoneNumber" in ('+ numbers+ ')').then(resp1 => {
 
-          console.log(resp1.rows)
+          var names = []
+          var ids = []
+
+          for(var i = 0; i< resp1.rows.length;i++){
+            names.push(resp1.rows[i]["name"])
+            ids.push(resp1.rows[i]["userId"])
+          }
+          console.log(names)
+          console.log(ids)
 
 
         })
