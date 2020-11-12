@@ -82,11 +82,9 @@ app.get('/user', function (req,res){
   pool.query('SELECT * FROM users ORDER BY "userId"').then(resp => {
     
     finalJson = resp.rows;
-    console.log(finalJson)
+    res.send(finalJson)
   })
   .catch(err => console.error('Error executing query', err.stack))
-    console.log(finalJson)
-    res.send(finalJson)
 
 });
 
